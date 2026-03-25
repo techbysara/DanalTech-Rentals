@@ -1,0 +1,139 @@
+ /* ============================================
+   Main Stylesheet
+   ============================================ */
+
+/* --- Global Reset --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: #0f0f1a;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- Login Wrapper --- */
+.login-wrapper {
+    width: 100%;
+    max-width: 420px;
+    padding: 20px;
+}
+
+/* --- Brand Header --- */
+.brand-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.brand-header h1 {
+    font-size: 2rem;
+    color: #00d4ff;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+.brand-header h2 {
+    font-size: 1rem;
+    color: #ffffff;
+    font-weight: 400;
+    margin-top: 5px;
+    letter-spacing: 1px;
+}
+
+.brand-tagline {
+    color: #a0a0b0;
+    font-size: 0.85rem;
+    margin-top: 8px;
+    line-height: 1.5;
+}
+
+/* --- Login Box --- */
+.login-box {
+    background: #1a1a2e;
+    border-radius: 16px;
+    padding: 40px;
+    border: 1px solid #2a2a4a;
+    box-shadow: 0 8px 32px rgba(0, 212, 255, 0.1);
+}
+
+.login-box h3 {
+    color: #ffffff;
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+/* --- Form Groups --- */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    color: #a0a0b0;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px 16px;
+    background: #0f0f1a;
+    border: 1px solid #2a2a4a;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 0.95rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #00d4ff;
+}
+
+.form-group input::placeholder {
+    color: #4a4a6a;
+}
+
+/* --- Login Button --- */
+.login-btn {
+    width: 100%;
+    padding: 14px;
+    background: #00d4ff;
+    color: #0f0f1a;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 1px;
+    margin-top: 10px;
+    transition: background 0.3s ease;
+}
+
+.login-btn:hover {
+    background: #00b8d9;
+}
+
+/* --- Footer --- */
+.login-footer {
+    text-align: center;
+    margin-top: 25px;
+    color: #4a4a6a;
+    font-size: 0.8rem;
+}
+
+/* --- Select Dropdown Fix --- */
+.form-group select option {
+    background: #1a1a2e;
+    color: #ffffff;
+}
