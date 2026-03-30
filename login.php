@@ -1,4 +1,26 @@
-<?php session_start(); ?>
+<?php session_start(); 
+
+// Errot and Success Message config
+$loginMessage = "";
+
+if (isset($_GET['error'])) {
+    if($_GET['error'] == 'emptyfields') {
+        $loginMessage = " Please enter your email and password. ";
+    
+    } elseif ($_GET['error'] == 'wrongpassword') {
+        $loginMessage = " Incorrect password. Please verify and try again.";
+    
+    } elseif ($_GET['error'] == 'usernotfound') {
+        $loginMessage = " User does not exist.";
+    }
+}
+
+if (isset($_GET['success'])) {
+    if  ($_GET['success'] == 'registered') {
+        $loginMessage = " Account successfully created! Please login.";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,17 +34,23 @@
         <!-- Brand Header -->
         <div class="brand-header">
             <h1>DanalTech Rentals</h1>
-            <p class="brand-tagline">Stop stressing about gear. We've got you covered.</p>
+            <p class="brand-tagline">Rent the tech you need. Work without limits.</p>
         </div>
 
         <!-- Login Box -->
         <div class="login-box">
             <h3>Welcome Back</h3>
+
+        <!-- Login Message -->
+            <?php if (!empty ($loginMessage)) { ?>
+                <p class="auth-message"><?php echo $loginMessage; ?></p>
+            <?php } ?>
+
             <form method="POST" action="includes/auth.php">
                 <div class="form-group">
                     <label>Email Address</label>
                     <input type="email" name="userEmail" 
-                    placeholder="Enter your email" required>
+                    placeholder="Enter your email" required> 
                 </div>
                 <div class="form-group">
                     <label>Password</label>
@@ -39,6 +67,12 @@
                 <button type="submit" 
                 name="loginBtn" 
                 class="login-btn">Login</button>
+                <!-- end of login-box -->
+
+                <!-- Link to Register -->
+                <p class="auth-switch">Don't have an account? 
+                    <a href="register.php">Register here</a>
+                </p>
             </form>
         </div>
 
