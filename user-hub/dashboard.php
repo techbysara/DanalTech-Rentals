@@ -103,7 +103,7 @@ if (isset($_GET['error'])) {
                 <a href="browse.php" class="nav-link">
                      Browse Equipment
                 </a>
-                <a href="my-rentals.php" class="nav-link">
+                <a href="myRentals.php" class="nav-link">
                      My Rentals
                 </a>
                 <a href="../logout.php" class="nav-link logout">

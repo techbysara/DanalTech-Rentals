@@ -652,5 +652,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     height: 20px;
 }
 
-
+/* --- 4 Column Stats Grid --- */
+.stats-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
 
