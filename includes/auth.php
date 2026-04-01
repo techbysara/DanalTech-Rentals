@@ -69,11 +69,11 @@ if(isset($_POST['registerBtn'])) {
     $firstName          =trim($_POST['firstName']);
     $lastName           =trim($_POST['lastName']);
     $userEmail           =trim($_POST['userEmail']);
-    $userPassword        =trim($_POST['useerPassword']);
+    $userPassword        =trim($_POST['userPassword']);
     $confirmPassword      =trim($_POST['confirmPassword']);
 
     // Validate
-    if (empty($firstName) || empty(lastName) || 
+    if (empty($firstName) || empty($lastName) || 
         empty($userEmail) || empty($userPassword)) {
         header("Location: ../register.php?error=emptyfields");
         exit();

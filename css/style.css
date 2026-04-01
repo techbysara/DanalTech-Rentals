@@ -518,3 +518,139 @@ body {
     background: rgba(0, 212, 255, 0.1);
     color: #00d4ff;
 }
+
+/* User Dashboard Styles --*/
+
+/* --- User Section Header --- */
+.user-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.user-section-header h2 {
+    color: #ffffff;
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+/* --- User Search Bar --- */
+.user-search-bar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.user-search-bar input {
+    padding: 10px 15px;
+    background: #0f0f1a;
+    border: 1px solid #2a2a4a;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 0.9rem;
+    width: 250px;
+    transition: border-color 0.3s ease;
+}
+
+.user-search-bar input:focus {
+    outline: none;
+    border-color: #00d4ff;
+}
+
+.user-search-bar select {
+    padding: 10px 15px;
+    background: #0f0f1a;
+    border: 1px solid #2a2a4a;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 0.9rem;
+    transition: border-color 0.3s ease;
+}
+
+.user-search-bar select:focus {
+    outline: none;
+    border-color: #00d4ff;
+}
+
+/* --- Rent Button --- */
+.admin-table .btn-rent {
+    background: rgba(0, 255, 136, 0.1) !important;
+    color: #00ff88 !important;
+    padding: 5px 12px !important;
+    border-radius: 5px !important;
+    border: 1px solid rgba(0, 255, 136, 0.2) !important;
+    font-size: 0.8rem !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+}
+
+.admin-table .btn-rent:hover {
+    background: rgba(0, 255, 136, 0.2) !important;
+    color: #00ff88 !important;
+}
+
+button.btn-rent:hover {
+    background: rgba(0, 255, 136, 0.2) !important;
+    color: #00ff88 !important;
+}
+
+.btn-rent:hover {
+    background: rgba(0, 255, 136, 0.2);
+}
+
+/* --- Return Button --- */
+.btn-return {
+    background: rgba(255, 165, 0, 0.1);
+    color: #ffa500;
+    padding: 5px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    border: 1px solid rgba(255, 165, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.btn-return:hover {
+    background: rgba(255, 165, 0, 0.2);
+}
+
+/* --- Deal Badge --- */
+.deal-badge {
+    background: rgba(255, 107, 107, 0.1);
+    color: #ff6b6b;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* --- Rental Status Badges --- */
+.status-badge.active {
+    background: rgba(0, 255, 136, 0.1);
+    color: #00ff88;
+}
+
+.status-badge.returned {
+    background: rgba(0, 212, 255, 0.1);
+    color: #00d4ff;
+}
+
+.status-badge.overdue {
+    background: rgba(255, 107, 107, 0.1);
+    color: #ff6b6b;
+}
+
+/* --- Date Picker Icon color --- */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1) brightness(2);
+    cursor: pointer;
+    opacity: 1;
+    width: 20px;
+    height: 20px;
+}
+
+
+
