@@ -67,7 +67,7 @@ $activeRentalsData          = $activeRentalsResult->fetch_assoc();
              <div class="admin-topbar">
                 <h1>Admin Dashboard</h1>
                 <div class="admin-profile">
-                    Welcome, <?php echo $_SESSION['userFirstName']; ?>! 
+                    Welcome, <?php echo htmlspecialchars($_SESSION['userFirstName'], ENT_QUOTES, 'UTF-8'); ?>! 
                 </div>
 
             </div>
@@ -77,7 +77,7 @@ $activeRentalsData          = $activeRentalsResult->fetch_assoc();
                 <div class="stat-card">
                     <div class="stat-icon">👥</div>
                     <div class="stat-info">
-                        <h3><?php echo $totalUsersData['totalUsers']; ?></h3>
+                        <h3><?php echo htmlspecialchars($totalUsersData['totalUsers'], ENT_QUOTES, 'UTF-8'); ?></h3>
                         <p>Total Users</p>
                     </div>
 
@@ -86,7 +86,7 @@ $activeRentalsData          = $activeRentalsResult->fetch_assoc();
                 <div class="stat-card">
                     <div class="stat-icon">🔧</div>
                     <div class="stat-info">
-                        <h3><?php echo $totalEquipmentData['totalEquipment']; ?></h3>
+                        <h3><?php echo htmlspecialchars($totalEquipmentData['totalEquipment'], ENT_QUOTES, 'UTF-8'); ?></h3>
                         <p>Total Equipment</p>
                     </div>
 
@@ -94,7 +94,7 @@ $activeRentalsData          = $activeRentalsResult->fetch_assoc();
                  <div class="stat-card">
                     <div class="stat-icon">📋</div>
                     <div class="stat-info">
-                        <h3><?php echo $activeRentalsData['activeRentals']; ?></h3>
+                        <h3><?php echo htmlspecialchars($activeRentalsData['activeRentals'], ENT_QUOTES, 'UTF-8'); ?></h3>
                         <p>Active Rentals</p>
                     </div>
                 </div>

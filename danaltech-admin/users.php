@@ -192,7 +192,7 @@ if (isset($_GET['error'])) {
             <div class="admin-topbar">
                 <h1>User Management</h1>
                 <div class="admin-profile">
-                    Welcome, <?php echo $_SESSION['userFirstName']; ?>!
+                    Welcome, <?php echo htmlspecialchars($_SESSION['userFirstName'], ENT_QUOTES, 'UTF-8'); ?>!
                 </div>
             </div>
 
@@ -233,15 +233,17 @@ if (isset($_GET['error'])) {
                         <?php if ($usersListResult->num_rows > 0) { ?>
                             <?php while ($userRow = $usersListResult->fetch_assoc()) { ?>
                                 <tr>
-                                    <td><?php echo $userRow['firstName']; ?></td>
-                                    <td><?php echo $userRow['lastName']; ?></td>
-                                    <td><?php echo $userRow['email']; ?></td>
+                                    <td><?php echo htmlspecialchars($userRow['firstName'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?php echo htmlspecialchars($userRow['lastName'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?php echo htmlspecialchars($userRow['email'], ENT_QUOTES, 'UTF-8'); ?></td>
                                     <td>
-                                        <span class="status-badge <?php echo strtolower($userRow['role']); ?>">
-                                            <?php echo $userRow['role']; ?>
+                                        <span class="status-badge <?php echo htmlspecialchars(strtolower($userRow['role']), ENT_QUOTES, 'UTF-8'); ?>">
+                                            <?php echo htmlspecialchars($userRow['role'], ENT_QUOTES, 'UTF-8'); ?>
                                         </span>
                                     </td>
-                                    <td><?php echo $userRow['last_login'] ?? 'Never'; ?></td>
+                                    <td><?php echo $userRow['last_login'] 
+                                        ? htmlspecialchars(date('d M Y', strtotime($userRow['last_login'])), ENT_QUOTES, 'UTF-8') 
+                                            : 'Never'; ?></td>
                                     <td><?php echo date('d M Y', strtotime($userRow['created_at'])); ?></td>
                                     <td>
                                         <!-- Edit Button -->
@@ -250,10 +252,10 @@ if (isset($_GET['error'])) {
                                         data-bs-toggle="modal"
                                         data-bs-target="#editUserModal"
                                         data-id="<?php echo $userRow['id']; ?>"
-                                        data-firstname="<?php echo $userRow['firstName']; ?>"
-                                        data-lastname="<?php echo $userRow['lastName']; ?>"
-                                        data-email="<?php echo $userRow['email']; ?>"
-                                        data-role="<?php echo $userRow['role']; ?>">
+                                        data-firstname="<?php echo htmlspecialchars($userRow['firstName'], ENT_QUOTES, 'UTF-8'); ?>"
+                                        data-lastname="<?php echo htmlspecialchars($userRow['lastName'], ENT_QUOTES, 'UTF-8'); ?>"
+                                        data-email="<?php echo htmlspecialchars($userRow['email'], ENT_QUOTES, 'UTF-8'); ?>"
+                                        data-role="<?php echo htmlspecialchars($userRow['role'], ENT_QUOTES, 'UTF-8'); ?>">
                                             Edit
                                         </button>
                                         <!-- Delete Button -->

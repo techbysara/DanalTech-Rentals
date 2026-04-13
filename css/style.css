@@ -660,3 +660,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-bottom: 30px;
 }
 
+/* --- Overdue Warning Banner --- */
+.overdue-warning {
+    background: rgba(255, 107, 107, 0.15);
+    border: 1px solid rgba(255, 107, 107, 0.4);
+    border-left: 4px solid #ff6b6b;
+    color: #ff6b6b;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+    font-weight: 500;
+}

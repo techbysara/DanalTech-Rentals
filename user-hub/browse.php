@@ -61,7 +61,7 @@ $browseEquipmentResult = $dbConn->query($browseEquipmentQuery);
             <div class="admin-topbar">
                 <h1>Browse Equipment</h1>
                 <div class="admin-profile">
-                    Welcome, <?php echo $_SESSION['userFirstName']; ?>!
+                    Welcome, <?php echo htmlspecialchars($_SESSION['userFirstName'], ENT_QUOTES, 'UTF-8'); ?>!
                 </div>
             </div>
 
@@ -114,21 +114,21 @@ $browseEquipmentResult = $dbConn->query($browseEquipmentQuery);
                         <?php if ($browseEquipmentResult->num_rows > 0) { ?>
                             <?php while ($browseRow = $browseEquipmentResult->fetch_assoc()) { ?>
                                 <tr>
-                                    <td><?php echo $browseRow['name']; ?></td>
-                                    <td><?php echo $browseRow['category']; ?></td>
-                                    <td><?php echo $browseRow['equip_condition']; ?></td>
+                                    <td><?php echo htmlspecialchars($browseRow['name'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?php echo htmlspecialchars($browseRow['category'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?php echo htmlspecialchars($browseRow['equip_condition'], ENT_QUOTES, 'UTF-8'); ?></td>
                                     <td><?php echo $browseRow['quantity']; ?></td>
                                     <td>
-                                        <span class="status-badge <?php echo strtolower($browseRow['availability_status']); ?>">
-                                            <?php echo $browseRow['availability_status']; ?>
+                                        <span class="status-badge <?php echo htmlspecialchars(strtolower($browseRow['availability_status']), ENT_QUOTES, 'UTF-8'); ?>">
+                                            <?php echo htmlspecialchars($browseRow['availability_status'], ENT_QUOTES, 'UTF-8'); ?>
                                         </span>
                                     </td>
                                     <td>
                                         <?php if ($browseRow['featured_deal'] != 'None') { ?>
                                             <span class="deal-badge">
-                                                <?php echo $browseRow['featured_deal']; ?>
+                                                <?php echo htmlspecialchars($browseRow['featured_deal'], ENT_QUOTES, 'UTF-8'); ?>
                                                 <?php if ($browseRow['deal_discount'] > 0) { ?>
-                                                    - <?php echo $browseRow['deal_discount']; ?>% off!
+                                                    - <?php echo htmlspecialchars($browseRow['deal_discount'], ENT_QUOTES, 'UTF-8'); ?>% off!
                                                 <?php } ?>
                                             </span>
                                         <?php } else { ?>
@@ -143,7 +143,7 @@ $browseEquipmentResult = $dbConn->query($browseEquipmentQuery);
                                         data-bs-toggle="modal"
                                         data-bs-target="#rentEquipmentModal"
                                         data-id="<?php echo $browseRow['id']; ?>"
-                                        data-name="<?php echo $browseRow['name']; ?>"
+                                        data-name="<?php echo htmlspecialchars($browseRow['name'], ENT_QUOTES, 'UTF-8'); ?>"
                                         data-quantity="<?php echo $browseRow['quantity']; ?>">
                                             Rent
                                         </button>

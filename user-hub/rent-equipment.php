@@ -3,11 +3,26 @@ session_start();
 require_once '../config/database.php';
 
 //  Rent Equipment Session Protection for Users Only
-
 if (!isset($_SESSION['userRole']) || $_SESSION['userRole'] !== 'User') {
     header("Location: ../login.php");
     exit();
 }
+
+// Verify rental limit maximum of 7 items
+$rentalLimitQuery       = "SELECT COUNT(*) AS currentRentals FROM rentals WHERE user_id = ?
+                            AND (status = 'Active' OR status = 'Overdue')";
+
+$rentalLimitPrepared = $dbConn->prepare($rentalLimitQuery);
+$rentalLimitPrepared->bind_param("i", $_SESSION['userID']);
+$rentalLimitPrepared->execute();
+$rentalLimitResult    = $rentalLimitPrepared->get_result();
+$rentalLimitData      = $rentalLimitResult->fetch_assoc();
+
+if ($rentalLimitData['currentRentals'] >= 7) {
+    header("Location: dashboard.php?error=rentalLimit");
+    exit();
+}
+
 
 if (isset($_POST['rentBtn'])) {
     $rentEquipmentID = intval($_POST['rentEquipmentID']);
@@ -30,16 +45,18 @@ if (isset($_POST['rentBtn'])) {
     }
 
     // Insert rental record
-    $insertRentalQuery    = "INSERT INTO rentals (user_id, equipment_id, due_date, status) 
-                            VALUES (?, ?, ?, 'Active')";
-
-    $insertRentalPrepared = $dbConn->prepare($insertRentalQuery);
-    $insertRentalPrepared->bind_param(
-        "iis",
-        $rentUserID,
-        $rentEquipmentID,
-        $rentDueDate
-    );
+    $insertRentalQuery = "INSERT INTO rentals 
+                     (user_id, equipment_id, due_date, status, quantity) 
+                     VALUES (?, ?, ?, 'Active', ?)";
+$insertRentalPrepared = $dbConn->prepare($insertRentalQuery);
+$insertRentalPrepared->bind_param(
+    "iisi",
+    $rentUserID,
+    $rentEquipmentID,
+    $rentDueDate,
+    $rentQuantity
+);
+    
 
     if ($insertRentalPrepared->execute()) {
         // Update equipment quantity

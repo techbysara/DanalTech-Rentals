@@ -28,8 +28,21 @@ if(isset($_POST['loginBtn'])) {
     if($loginQueryResult->num_rows ===1) {
         $userData = $loginQueryResult->fetch_assoc();
 
+        // Lockout Check
+        if ($userData['locked_until'] && new DateTime() < new DateTime($userData['locked_until'])) {
+            header("Location: ../login.php?error=accountlocked");
+            exit();
+        }
+
         // Password Verification
         if(password_verify($userPassword, $userData['password'])) {
+
+            // Reset failed attempts on successful login
+            $resetAttemptsQuery    = "UPDATE users SET failed_attempts = 0, 
+                                     locked_until = NULL WHERE id = ?";
+            $resetAttemptsPrepared = $dbConn->prepare($resetAttemptsQuery);
+            $resetAttemptsPrepared->bind_param("i", $userData['id']);
+            $resetAttemptsPrepared->execute();
 
             // Set Session Variable
             $_SESSION['userID']             =$userData['id'];
@@ -48,17 +61,39 @@ if(isset($_POST['loginBtn'])) {
             if($userData['role'] === 'Admin') {
                 header("Location: ../danaltech-admin/dashboard.php");
                 exit();
-                } else {
-                    header("Location: ../user-hub/dashboard.php");
-                    exit();
-                }
+
+            } else {
+                header("Location: ../user-hub/dashboard.php");
+                exit();
+            }
 
         } else {
-            header("Location: ../login.php?error=wrongpassword");
-            exit();
-        }
+            // Wrong password — increment failed attempts
+             $newAttempts = $userData['failed_attempts'] + 1;
+
+            if ($newAttempts >= 5) {
+                $lockQuery    = "UPDATE users SET failed_attempts = ?, 
+                                locked_until = DATE_ADD(NOW(), INTERVAL 15 MINUTE) 
+                                WHERE id = ?";
+                $lockPrepared = $dbConn->prepare($lockQuery);
+                $lockPrepared->bind_param("ii", $newAttempts, $userData['id']);
+                $lockPrepared->execute();
+                header("Location: ../login.php?error=accountlocked");
+                exit();
+
+            } else {
+                $incrementQuery    = "UPDATE users SET failed_attempts = ? WHERE id = ?";
+                $incrementPrepared = $dbConn->prepare($incrementQuery);
+                $incrementPrepared->bind_param("ii", $newAttempts, $userData['id']);
+                $incrementPrepared->execute();   
+                header("Location: ../login.php?error=wrongpassword");
+                exit();
+            }
+
+        } 
 
     } else {
+        // User not found
         header("Location: ../login.php?error=usernotfound");
         exit();
     }

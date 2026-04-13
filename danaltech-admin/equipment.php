@@ -45,7 +45,7 @@ if (isset($_POST['addEquipmentBtn'])) {
 }
 
 // Edit Equipment Config
-if (isset($_POST['addEquipmentBtn'])) {
+if (isset($_POST['editEquipmentBtn'])) {
     $editEquipmentID          = trim($_POST['editEquipmentID']);
     $equipmentName           = trim($_POST['equipmentName']);
     $equipmentCategory      = trim($_POST['equipmentCategory']);
@@ -179,7 +179,7 @@ if (isset($_GET['error'])) {
             <div class="admin-topbar">
                 <h1>Equipment Management</h1>
                 <div class="admin-profile">
-                    👤 Welcome, <?php echo $_SESSION['userFirstName']; ?>!
+                    👤 Welcome, <?php echo htmlspecialchars($_SESSION['userFirstName'], ENT_QUOTES, 'UTF-8'); ?>!
                 </div>
             </div>
 
@@ -221,17 +221,17 @@ if (isset($_GET['error'])) {
                         <?php if ($equipmentListResult->num_rows > 0) { ?>
                             <?php while ($equipmentRow = $equipmentListResult->fetch_assoc()) { ?>
                                 <tr>
-                                    <td><?php echo $equipmentRow['name']; ?></td>
-                                    <td><?php echo $equipmentRow['category']; ?></td>
-                                    <td><?php echo $equipmentRow['serialNumber']; ?></td>
-                                    <td><?php echo $equipmentRow['equip_condition']; ?></td>
-                                    <td><?php echo $equipmentRow['quantity']; ?></td>
+                                    <td><?php echo htmlspecialchars($equipmentRow['name'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?php echo htmlspecialchars($equipmentRow['category'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?php echo htmlspecialchars($equipmentRow['serialNumber'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?php echo htmlspecialchars($equipmentRow['equip_condition'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?php echo htmlspecialchars($equipmentRow['quantity'], ENT_QUOTES, 'UTF-8'); ?></td>
                                     <td>
-                                        <span class="status-badge <?php echo strtolower($equipmentRow['availability_status']); ?>">
-                                            <?php echo $equipmentRow['availability_status']; ?>
+                                        <span class="status-badge <?php echo htmlspecialchars(strtolower($equipmentRow['availability_status'])); ?>">
+                                            <?php echo htmlspecialchars($equipmentRow['availability_status'], ENT_QUOTES, 'UTF-8'); ?>
                                         </span>
                                     </td>
-                                    <td><?php echo $equipmentRow['featured_deal']; ?></td>
+                                    <td><?php echo htmlspecialchars($equipmentRow['featured_deal'], ENT_QUOTES, 'UTF-8'); ?></td>
                                     <td>
 
                                         <!-- Edit Button -->
@@ -239,20 +239,20 @@ if (isset($_GET['error'])) {
                                         class="btn-edit"
                                         data-bs-toggle="modal"
                                         data-bs-target="#editEquipmentModal"
-                                        data-id="<?php echo $equipmentRow['id']; ?>"
-                                        data-name="<?php echo $equipmentRow['name']; ?>"
-                                        data-category="<?php echo $equipmentRow['category']; ?>"
-                                        data-serial="<?php echo $equipmentRow['serialNumber']; ?>"
-                                        data-condition="<?php echo $equipmentRow['equip_condition']; ?>"
-                                        data-quantity="<?php echo $equipmentRow['quantity']; ?>"
-                                        data-status="<?php echo $equipmentRow['availability_status']; ?>"
-                                        data-deal="<?php echo $equipmentRow['featured_deal']; ?>"
-                                        data-discount="<?php echo $equipmentRow['deal_discount']; ?>">
+                                        data-id="<?php echo htmlspecialchars($equipmentRow['id'], ENT_QUOTES, 'UTF-8'); ?>"
+                                        data-name="<?php echo htmlspecialchars($equipmentRow['name'], ENT_QUOTES, 'UTF-8'); ?>"
+                                        data-category="<?php echo htmlspecialchars($equipmentRow['category'], ENT_QUOTES, 'UTF-8'); ?>"
+                                        data-serial="<?php echo htmlspecialchars($equipmentRow['serialNumber'], ENT_QUOTES, 'UTF-8'); ?>"
+                                        data-condition="<?php echo htmlspecialchars($equipmentRow['equip_condition'], ENT_QUOTES, 'UTF-8'); ?>"
+                                        data-quantity="<?php echo htmlspecialchars($equipmentRow['quantity'], ENT_QUOTES, 'UTF-8'); ?>"
+                                        data-status="<?php echo htmlspecialchars($equipmentRow['availability_status'], ENT_QUOTES, 'UTF-8'); ?>"
+                                        data-deal="<?php echo htmlspecialchars($equipmentRow['featured_deal'], ENT_QUOTES, 'UTF-8'); ?>"
+                                        data-discount="<?php echo htmlspecialchars($equipmentRow['deal_discount'], ENT_QUOTES, 'UTF-8'); ?>">
                                             Edit
                                         </button>
 
                                         <!-- Delete Button -->
-                                        <a href="equipment.php?delete=<?php echo $equipmentRow['id']; ?>"
+                                        <a href="equipment.php?delete=<?php echo htmlspecialchars($equipmentRow['id'], ENT_QUOTES, 'UTF-8'); ?>"
                                         class="btn-delete"
                                         onclick="return confirm('Are you sure you want to delete this equipment?')">
                                             Delete

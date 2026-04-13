@@ -109,7 +109,7 @@ if (isset($_GET['success'])) {
             <div class="admin-topbar">
                 <h1>Rentals Management</h1>
                 <div class="admin-profile">
-                    Welcome, <?php echo $_SESSION['userFirstName']; ?>!
+                    Welcome, <?php echo htmlspecialchars($_SESSION['userFirstName'], ENT_QUOTES, 'UTF-8'); ?>!
                 </div>
             </div>
 
@@ -171,10 +171,10 @@ if (isset($_GET['success'])) {
                         <?php if ($allRentalsResult->num_rows > 0) { ?>
                             <?php while ($rentalRow = $allRentalsResult->fetch_assoc()) { ?>
                                 <tr>
-                                    <td><?php echo $rentalRow['userFirstName'] . ' ' . $rentalRow['userLastName']; ?></td>
-                                    <td><?php echo $rentalRow['userEmail']; ?></td>
-                                    <td><?php echo $rentalRow['equipmentName']; ?></td>
-                                    <td><?php echo $rentalRow['equipmentCategory']; ?></td>
+                                    <td><?php echo htmlspecialchars($rentalRow['userFirstName'], ENT_QUOTES, 'UTF-8') . ' ' . htmlspecialchars($rentalRow['userLastName'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?php echo htmlspecialchars($rentalRow['userEmail'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?php echo htmlspecialchars($rentalRow['equipmentName'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?php echo htmlspecialchars($rentalRow['equipmentCategory'], ENT_QUOTES, 'UTF-8'); ?></td>
                                     <td><?php echo date('d M Y', strtotime($rentalRow['rent_date'])); ?></td>
                                     <td><?php echo date('d M Y', strtotime($rentalRow['due_date'])); ?></td>
                                     <td>
@@ -183,8 +183,8 @@ if (isset($_GET['success'])) {
                                         : '-'; ?>
                                     </td>
                                     <td>
-                                        <span class="status-badge <?php echo strtolower($rentalRow['status']); ?>">
-                                            <?php echo $rentalRow['status']; ?>
+                                        <span class="status-badge <?php echo htmlspecialchars(strtolower($rentalRow['status']), ENT_QUOTES, 'UTF-8'); ?>">
+                                            <?php echo htmlspecialchars($rentalRow['status'], ENT_QUOTES, 'UTF-8'); ?>
                                         </span>
                                     </td>
                                     <td>
@@ -196,7 +196,7 @@ if (isset($_GET['success'])) {
                                             </a>
                                         <?php } else { ?>
                                             <span style="color: #4a4a6a; font-size: 0.8rem;">
-                                                <?php echo $rentalRow['status']; ?>
+                                                <?php echo htmlspecialchars($rentalRow['status'], ENT_QUOTES, 'UTF-8'); ?>
                                             </span>
                                         <?php } ?>
                                     </td>

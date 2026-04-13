@@ -41,7 +41,7 @@ if (isset($_GET['rental'])) {
     $updateRentalPrepared->execute();
 
     // Increase equipment quantity
-    $restoredQuantity = $currentQuantity + 1;
+    $restoredQuantity = $currentQuantity + $rentalData['quantity'];
 
     // Update availability status
     if ($restoredQuantity === 0) {

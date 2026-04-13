@@ -1,12 +1,22 @@
 <?php
 session_start();
-require_once '../config/database.php';
 
 // User Dashboard Session Protection for Users Only
 if (!isset($_SESSION['userRole']) || $_SESSION['userRole'] !== 'User') {
     header("Location: ../login.php");
     exit();
 }
+
+require_once '../config/database.php';
+
+// Auto-update overdue rentals
+$autoOverdueQuery    = "UPDATE rentals SET status = 'Overdue' 
+                        WHERE user_id = ? AND status = 'Active' 
+                        AND due_date < NOW()";
+
+$autoOverduePrepared = $dbConn->prepare($autoOverdueQuery);
+$autoOverduePrepared->bind_param("i", $_SESSION['userID']);
+$autoOverduePrepared->execute();
 
 // Retrieve available equipment
 $equipmentQuery  = "SELECT * FROM equipment WHERE availability_status != 'Unavailable' AND quantity > 0 
@@ -57,6 +67,7 @@ if (isset($_GET['success'])) {
     if ($_GET['success'] == 'rented') {
         $userDashMessage     = "Equipment rented successfully!";
         $userDashMessageType = "success";
+
     } elseif ($_GET['success'] == 'returned') {
         $userDashMessage     = "Equipment returned successfully!";
         $userDashMessageType = "success";
@@ -66,10 +77,16 @@ if (isset($_GET['error'])) {
     if ($_GET['error'] == 'rentfailed') {
         $userDashMessage     = "Failed to rent equipment. Please try again.";
         $userDashMessageType = "error";
+
     } elseif ($_GET['error'] == 'unavailable') {
         $userDashMessage     = "Sorry, this equipment is currently unvailable.";
         $userDashMessageType = "error";
+
+    } elseif ($_GET['error'] == 'rentalLimit') {
+        $userDashMessage      = "You have reached the maximum rental Limit of 7 items!";
+        $userDashMessageType  = "error"; 
     }
+
 }
 ?>
 
@@ -119,7 +136,7 @@ if (isset($_GET['error'])) {
             <div class="admin-topbar">
                 <h1>My Dashboard</h1>
                 <div class="admin-profile">
-                     Welcome, <?php echo $_SESSION['userFirstName']; ?>!
+                     Welcome, <?php echo htmlspecialchars($_SESSION['userFirstName'], ENT_QUOTES, 'UTF-8'); ?>!
                 </div>
             </div>
 
@@ -199,21 +216,21 @@ if (isset($_GET['error'])) {
                         <?php if ($equipmentResult->num_rows > 0) { ?>
                             <?php while ($equipmentRow = $equipmentResult->fetch_assoc()) { ?>
                                 <tr>
-                                    <td><?php echo $equipmentRow['name']; ?></td>
-                                    <td><?php echo $equipmentRow['category']; ?></td>
-                                    <td><?php echo $equipmentRow['equip_condition']; ?></td>
+                                    <td><?php echo htmlspecialchars($equipmentRow['name'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?php echo htmlspecialchars($equipmentRow['category'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?php echo htmlspecialchars($equipmentRow['equip_condition'], ENT_QUOTES, 'UTF-8'); ?></td>
                                     <td><?php echo $equipmentRow['quantity']; ?></td>
                                     <td>
-                                        <span class="status-badge <?php echo strtolower($equipmentRow['availability_status']); ?>">
-                                            <?php echo $equipmentRow['availability_status']; ?>
+                                        <span class="status-badge <?php echo htmlspecialchars(strtolower($equipmentRow['availability_status']),ENT_QUOTES, 'UTF-8'); ?>">
+                                            <?php echo htmlspecialchars($equipmentRow['availability_status'], ENT_QUOTES, 'UTF-8'); ?>
                                         </span>
                                     </td>
                                     <td>
                                         <?php if ($equipmentRow['featured_deal'] != 'None') { ?>
                                             <span class="deal-badge">
-                                                 <?php echo $equipmentRow['featured_deal']; ?>
+                                                 <?php echo htmlspecialchars($equipmentRow['featured_deal'], ENT_QUOTES, 'UTF-8'); ?>
                                                 <?php if ($equipmentRow['deal_discount'] > 0) { ?>
-                                                    - <?php echo $equipmentRow['deal_discount']; ?>% off!
+                                                    - <?php echo htmlspecialchars($equipmentRow['deal_discount'], ENT_QUOTES, 'UTF-8'); ?>% off!
                                                 <?php } ?>
                                             </span>
                                         <?php } else { ?>
@@ -227,7 +244,7 @@ if (isset($_GET['error'])) {
                                         data-bs-toggle="modal"
                                         data-bs-target="#rentEquipmentModal"
                                         data-id="<?php echo $equipmentRow['id']; ?>"
-                                        data-name="<?php echo $equipmentRow['name']; ?>"
+                                        data-name="<?php echo htmlspecialchars($equipmentRow['name'], ENT_QUOTES, 'UTF-8'); ?>"
                                         data-quantity="<?php echo $equipmentRow['quantity']; ?>">
                                             Rent
                                         </button>
@@ -244,6 +261,15 @@ if (isset($_GET['error'])) {
                     </tbody>
                 </table>
             </div>
+
+            <!-- Overdue Warning Banner -->
+            <?php if ($overdueRentalsData['overdueRentals'] > 0) { ?>
+                <div class="overdue-warning">
+                        You have <?php echo $overdueRentalsData['overdueRentals']; ?> overdue rental(s)! 
+                        Additional charges may apply. Please return your equipment immediately.
+                </div>
+                
+            <?php } ?>
 
             <!-- My Active Rentals Section -->
             <div class="admin-table-card">
@@ -263,13 +289,13 @@ if (isset($_GET['error'])) {
                         <?php if ($userRentalsResult->num_rows > 0) { ?>
                             <?php while ($rentalRow = $userRentalsResult->fetch_assoc()) { ?>
                                 <tr>
-                                    <td><?php echo $rentalRow['equipmentName']; ?></td>
-                                    <td><?php echo $rentalRow['equipmentCategory']; ?></td>
+                                    <td><?php echo htmlspecialchars($rentalRow['equipmentName'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?php echo htmlspecialchars($rentalRow['equipmentCategory'], ENT_QUOTES, 'UTF-8'); ?></td>
                                     <td><?php echo date('d M Y', strtotime($rentalRow['rent_date'])); ?></td>
                                     <td><?php echo date('d M Y', strtotime($rentalRow['due_date'])); ?></td>
                                     <td>
-                                        <span class="status-badge <?php echo strtolower($rentalRow['status']); ?>">
-                                            <?php echo $rentalRow['status']; ?>
+                                        <span class="status-badge <?php echo htmlspecialchars(strtolower($rentalRow['status']), ENT_QUOTES, 'UTF-8'); ?>">
+                                            <?php echo htmlspecialchars($rentalRow['status'], ENT_QUOTES, 'UTF-8'); ?>
                                         </span>
                                     </td>
                                     <td>

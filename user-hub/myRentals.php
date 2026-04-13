@@ -94,7 +94,7 @@ $myReturnedRentalsData     = $myReturnedRentalsResult->fetch_assoc();
             <div class="admin-topbar">
                 <h1>My Rentals</h1>
                 <div class="admin-profile">
-                    Welcome, <?php echo $_SESSION['userFirstName']; ?>!
+                    Welcome, <?php echo htmlspecialchars($_SESSION['userFirstName'], ENT_QUOTES, 'UTF-8'); ?>!
                 </div>
             </div>
 
@@ -108,7 +108,7 @@ $myReturnedRentalsData     = $myReturnedRentalsResult->fetch_assoc();
                 </div>
                 <div class="stat-card">
                     <div class="stat-info">
-                        <h3><?php echo $myActiveRentalsData['myActiveRentals']; ?></h3>
+                        <h3><?php echo htmlspecialchars($myActiveRentalsData['myActiveRentals'], ENT_QUOTES, 'UTF-8'); ?></h3>
                         <p>Active Rentals</p>
                     </div>
                 </div>
@@ -139,8 +139,8 @@ $myReturnedRentalsData     = $myReturnedRentalsResult->fetch_assoc();
                         <?php if ($myRentalsResult->num_rows > 0) { ?>
                             <?php while ($myRentalRow = $myRentalsResult->fetch_assoc()) { ?>
                                 <tr>
-                                    <td><?php echo $myRentalRow['equipmentName']; ?></td>
-                                    <td><?php echo $myRentalRow['equipmentCategory']; ?></td>
+                                    <td><?php echo htmlspecialchars($myRentalRow['equipmentName'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td><?php echo htmlspecialchars($myRentalRow['equipmentCategory'], ENT_QUOTES, 'UTF-8'); ?></td>
                                     <td><?php echo date('d M Y', strtotime($myRentalRow['rent_date'])); ?></td>
                                     <td><?php echo date('d M Y', strtotime($myRentalRow['due_date'])); ?></td>
                                     <td>
@@ -149,8 +149,8 @@ $myReturnedRentalsData     = $myReturnedRentalsResult->fetch_assoc();
                                         : '-'; ?>
                                     </td>
                                     <td>
-                                        <span class="status-badge <?php echo strtolower($myRentalRow['status']); ?>">
-                                            <?php echo $myRentalRow['status']; ?>
+                                        <span class="status-badge <?php echo htmlspecialchars(strtolower($myRentalRow['status']), ENT_QUOTES, 'UTF-8'); ?>">
+                                            <?php echo htmlspecialchars($myRentalRow['status'], ENT_QUOTES, 'UTF-8'); ?>
                                         </span>
                                     </td>
                                     <td>
@@ -162,7 +162,7 @@ $myReturnedRentalsData     = $myReturnedRentalsResult->fetch_assoc();
                                             </a>
                                         <?php } else { ?>
                                             <span style="color: #4a4a6a; font-size: 0.8rem;">
-                                                <?php echo $myRentalRow['status']; ?>
+                                                <?php echo htmlspecialchars($myRentalRow['status'], ENT_QUOTES, 'UTF-8'); ?>
                                             </span>
                                         <?php } ?>
                                     </td>

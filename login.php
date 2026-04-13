@@ -13,7 +13,12 @@ if (isset($_GET['error'])) {
     
     } elseif ($_GET['error'] == 'usernotfound') {
         $loginMessage = " User does not exist.";
+    
+    } elseif ($_GET['error'] == 'accountlocked') {
+    $loginMessage = "Account locked due to too many failed attempts. Try again in 15 minutes.";
+
     }
+
 }
 
 if (isset($_GET['success'])) {
