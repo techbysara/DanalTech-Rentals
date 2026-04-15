@@ -68,8 +68,17 @@ $myReturnedRentalsData     = $myReturnedRentalsResult->fetch_assoc();
         <!-- Sidebar -->
         <div class="admin-sidebar">
             <div class="sidebar-brand">
-                <h2>DanalTech</h2>
-                <span>Rentals</span>
+                <a href="../index.php" class="dtr-logo" style="justify-content:center; padding: 0 0 10px 0;">
+                    <div class="logo-badge">
+                        <span class="logo-d">D</span>
+                        <span class="logo-t">T</span>
+                        <span class="logo-r">R</span>
+                    </div>
+                    <div class="logo-text-block">
+                        <span class="logo-name">DanalTech</span>
+                        <span class="logo-sub">Rentals</span>
+                    </div>
+                </a>
             </div>
             <nav class="sidebar-nav">
                 <a href="dashboard.php" class="nav-link">
@@ -77,6 +86,9 @@ $myReturnedRentalsData     = $myReturnedRentalsResult->fetch_assoc();
                 </a>
                 <a href="browse.php" class="nav-link">
                     Browse Equipment
+                </a>
+                <a href="cart.php" class="nav-link">
+                    My Cart
                 </a>
                 <a href="myRentals.php" class="nav-link active">
                     My Rentals
@@ -93,8 +105,11 @@ $myReturnedRentalsData     = $myReturnedRentalsResult->fetch_assoc();
             <!-- Top Bar -->
             <div class="admin-topbar">
                 <h1>My Rentals</h1>
-                <div class="admin-profile">
-                    Welcome, <?php echo htmlspecialchars($_SESSION['userFirstName'], ENT_QUOTES, 'UTF-8'); ?>!
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()">Dark</button>
+                    <div class="admin-profile">
+                        Welcome, <?php echo htmlspecialchars($_SESSION['userFirstName'], ENT_QUOTES, 'UTF-8'); ?>!
+                    </div>
                 </div>
             </div>
 
@@ -154,14 +169,14 @@ $myReturnedRentalsData     = $myReturnedRentalsResult->fetch_assoc();
                                         </span>
                                     </td>
                                     <td>
-                                        <?php if ($myRentalRow['status'] === 'Active') { ?>
+                                        <?php if ($myRentalRow['status'] === 'Active' || $myRentalRow['status'] === 'Overdue') { ?>
                                             <a href="return-equipment.php?rental=<?php echo $myRentalRow['id']; ?>"
                                             class="btn-return"
                                             onclick="return confirm('Are you sure you want to return this equipment?')">
                                                 Return
                                             </a>
                                         <?php } else { ?>
-                                            <span style="color: #4a4a6a; font-size: 0.8rem;">
+                                            <span stle="font-size: 0.8rem; color: #F4845F;">
                                                 <?php echo htmlspecialchars($myRentalRow['status'], ENT_QUOTES, 'UTF-8'); ?>
                                             </span>
                                         <?php } ?>
@@ -184,6 +199,8 @@ $myReturnedRentalsData     = $myReturnedRentalsResult->fetch_assoc();
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <?php include '../includes/theme.php'; ?>
 
 </body>
 </html>

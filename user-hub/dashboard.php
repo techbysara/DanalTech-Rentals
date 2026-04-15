@@ -110,8 +110,17 @@ if (isset($_GET['error'])) {
         <!-- Sidebar -->
         <div class="admin-sidebar">
             <div class="sidebar-brand">
-                <h2>DanalTech</h2>
-                <span>Rentals</span>
+                <a href="../index.php" class="dtr-logo" style="justify-content:center; padding: 0 0 10px 0;">
+                    <div class="logo-badge">
+                        <span class="logo-d">D</span>
+                        <span class="logo-t">T</span>
+                        <span class="logo-r">R</span>
+                    </div>
+                    <div class="logo-text-block">
+                        <span class="logo-name">DanalTech</span>
+                        <span class="logo-sub">Rentals</span>
+                    </div>
+                </a>
             </div>
             <nav class="sidebar-nav">
                 <a href="dashboard.php" class="nav-link active">
@@ -119,6 +128,9 @@ if (isset($_GET['error'])) {
                 </a>
                 <a href="browse.php" class="nav-link">
                      Browse Equipment
+                </a>
+                <a href="cart.php" class="nav-link">
+                    My Cart
                 </a>
                 <a href="myRentals.php" class="nav-link">
                      My Rentals
@@ -135,8 +147,11 @@ if (isset($_GET['error'])) {
             <!-- Top Bar -->
             <div class="admin-topbar">
                 <h1>My Dashboard</h1>
-                <div class="admin-profile">
-                     Welcome, <?php echo htmlspecialchars($_SESSION['userFirstName'], ENT_QUOTES, 'UTF-8'); ?>!
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()">Dark</button>
+                    <div class="admin-profile">
+                        Welcome, <?php echo htmlspecialchars($_SESSION['userFirstName'], ENT_QUOTES, 'UTF-8'); ?>!
+                    </div>
                 </div>
             </div>
 
@@ -177,89 +192,16 @@ if (isset($_GET['error'])) {
             <div class="admin-table-card">
                 <div class="user-section-header">
                     <h2>Available Equipment</h2>
-
-                    <!-- Search Bar -->
-                    <div class="user-search-bar">
-                        <input type="text" 
-                        id="equipmentSearchInput" 
-                        placeholder="Search equipment..."
-                        onkeyup="searchEquipment()">
-                        <select id="categoryFilter" onchange="searchEquipment()">
-                            <option value="">All Categories</option>
-                            <option value="Laptops & PCs">Laptops & PCs</option>
-                            <option value="Monitors">Monitors</option>
-                            <option value="Desks & Chairs">Desks & Chairs</option>
-                            <option value="Accessories">Accessories</option>
-                            <option value="Bundles & Kits">Bundles & Kits</option>
-                            <option value="Printing & Wi-Fi">Printing & Wi-Fi</option>
-                            <option value="Cameras & AV">Cameras & AV</option>
-                            <option value="Storage & Backup">Storage & Backup</option>
-                            <option value="Power & Cables">Power & Cables</option>
-                            <option value="Study Essentials">Study Essentials</option>
-                        </select>
-                    </div>
                 </div>
-
-                <table class="admin-table" id="equipmentTable">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Category</th>
-                            <th>Condition</th>
-                            <th>Available</th>
-                            <th>Status</th>
-                            <th>Deal</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if ($equipmentResult->num_rows > 0) { ?>
-                            <?php while ($equipmentRow = $equipmentResult->fetch_assoc()) { ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($equipmentRow['name'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                    <td><?php echo htmlspecialchars($equipmentRow['category'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                    <td><?php echo htmlspecialchars($equipmentRow['equip_condition'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                    <td><?php echo $equipmentRow['quantity']; ?></td>
-                                    <td>
-                                        <span class="status-badge <?php echo htmlspecialchars(strtolower($equipmentRow['availability_status']),ENT_QUOTES, 'UTF-8'); ?>">
-                                            <?php echo htmlspecialchars($equipmentRow['availability_status'], ENT_QUOTES, 'UTF-8'); ?>
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <?php if ($equipmentRow['featured_deal'] != 'None') { ?>
-                                            <span class="deal-badge">
-                                                 <?php echo htmlspecialchars($equipmentRow['featured_deal'], ENT_QUOTES, 'UTF-8'); ?>
-                                                <?php if ($equipmentRow['deal_discount'] > 0) { ?>
-                                                    - <?php echo htmlspecialchars($equipmentRow['deal_discount'], ENT_QUOTES, 'UTF-8'); ?>% off!
-                                                <?php } ?>
-                                            </span>
-                                        <?php } else { ?>
-                                            <span class="text-muted">-</span>
-                                        <?php } ?>
-                                    </td>
-                                    <td>
-                                        <button type="button"
-                                        class="btn-rent"
-                                        style="background: rgba(0, 255, 136, 0.1); color: #00ff88; padding: 5px 12px; border-radius: 5px; border: 1px solid rgba(0, 255, 136, 0.2); font-size: 0.8rem; cursor: pointer;"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#rentEquipmentModal"
-                                        data-id="<?php echo $equipmentRow['id']; ?>"
-                                        data-name="<?php echo htmlspecialchars($equipmentRow['name'], ENT_QUOTES, 'UTF-8'); ?>"
-                                        data-quantity="<?php echo $equipmentRow['quantity']; ?>">
-                                            Rent
-                                        </button>
-                                    </td>
-                                </tr>
-                            <?php } ?>
-                        <?php } else { ?>
-                            <tr>
-                                <td colspan="7" class="empty-table">
-                                    No equipment available at the moment!
-                                </td>
-                            </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
+                <div style="text-align:center; padding: 40px 20px;">
+                    <p style="color: #A08070; margin-bottom: 20px; font-size: 1rem;">
+                        Browse our full catalogue of available equipment, 
+                        filter by category and condition, and add items to your cart.
+                    </p>
+                    <a href="browse.php" class="btn-hero-primary" style="display:inline-block;">
+                        Browse All Equipment
+                    </a>
+                </div>
             </div>
 
             <!-- Overdue Warning Banner -->
@@ -318,45 +260,7 @@ if (isset($_GET['error'])) {
                 </table>
             </div>
 
-            <!-- RENT EQUIPMENT MODAL -->
-            <div class="modal fade" id="rentEquipmentModal" tabindex="-1">
-                <div class="modal-dialog">
-                    <div class="modal-content dtr-modal">
-                        <div class="modal-header dtr-modal-header">
-                            <h5 class="modal-title">Rent Equipment</h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form method="POST" action="rent-equipment.php">
-                                <input type="hidden" name="rentEquipmentID" id="rentEquipmentID">
-                                <div class="form-group">
-                                    <label>Equipment</label>
-                                    <input type="text" id="rentEquipmentName" 
-                                    readonly style="background: #2a2a4a; color: #fff;">
-                                </div>
-                                <div class="form-group">
-                                    <label>Available Quantity</label>
-                                    <input type="text" id="rentEquipmentQuantity" 
-                                    readonly style="background: #2a2a4a; color: #fff;">
-                                </div>
-                                <div class="form-group">
-                                    <label>Quantity To Rent</label>
-                                    <input type="number" name="rentQuantity"
-                                    placeholder="Enter quantity" min="1" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Due Date</label>
-                                    <input type="date" name="rentDueDate" required>
-                                </div>
-                                <div class="modal-footer dtr-modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    <button type="submit" name="rentBtn" class="btn btn-primary">Confirm Rental</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
 
         </div>
     </div>
@@ -364,20 +268,8 @@ if (isset($_GET['error'])) {
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+   
     <script>
-        // Populate rent modal
-        var rentModal = document.getElementById('rentEquipmentModal');
-        rentModal.addEventListener('show.bs.modal', function(event) {
-            var rentBtn           = event.relatedTarget;
-            var equipmentID       = rentBtn.getAttribute('data-id');
-            var equipmentName     = rentBtn.getAttribute('data-name');
-            var equipmentQuantity = rentBtn.getAttribute('data-quantity');
-
-            document.getElementById('rentEquipmentID').value       = equipmentID;
-            document.getElementById('rentEquipmentName').value     = equipmentName;
-            document.getElementById('rentEquipmentQuantity').value = equipmentQuantity;
-        });
-
         // Search and filter equipment
         function searchEquipment() {
             var searchInput    = document.getElementById('equipmentSearchInput').value.toLowerCase();
@@ -401,6 +293,7 @@ if (isset($_GET['error'])) {
             }
         }
     </script>
+    <?php include '../includes/theme.php'; ?>
 
 </body>
 </html>

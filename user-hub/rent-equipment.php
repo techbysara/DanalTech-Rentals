@@ -8,6 +8,12 @@ if (!isset($_SESSION['userRole']) || $_SESSION['userRole'] !== 'User') {
     exit();
 }
 
+// Validate CSRF token
+if (!isset($_POST['csrfToken']) || $_POST['csrfToken'] !== $_SESSION['csrfToken']) {
+    header("Location: dashboard.php?error=invalidrequest");
+    exit();
+}
+
 // Verify rental limit maximum of 7 items
 $rentalLimitQuery       = "SELECT COUNT(*) AS currentRentals FROM rentals WHERE user_id = ?
                             AND (status = 'Active' OR status = 'Overdue')";

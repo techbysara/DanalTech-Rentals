@@ -163,8 +163,17 @@ if (isset($_GET['error'])) {
         <!-- Sidebar -->
         <div class="admin-sidebar">
             <div class="sidebar-brand">
-                <h2>DanalTech</h2>
-                <span>Rentals</span>
+                <a href="../index.php" class="dtr-logo" style="justify-content:center; padding: 0 0 10px 0;">
+                    <div class="logo-badge">
+                        <span class="logo-d">D</span>
+                        <span class="logo-t">T</span>
+                        <span class="logo-r">R</span>
+                    </div>
+                    <div class="logo-text-block">
+                        <span class="logo-name">DanalTech</span>
+                        <span class="logo-sub">Rentals</span>
+                    </div>
+                </a>
             </div>
             <nav class="sidebar-nav">
                 <a href="dashboard.php" class="nav-link">
@@ -191,8 +200,11 @@ if (isset($_GET['error'])) {
             <!-- Top Bar -->
             <div class="admin-topbar">
                 <h1>User Management</h1>
-                <div class="admin-profile">
-                    Welcome, <?php echo htmlspecialchars($_SESSION['userFirstName'], ENT_QUOTES, 'UTF-8'); ?>!
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()">Dark</button>
+                    <div class="admin-profile">
+                        Welcome, <?php echo htmlspecialchars($_SESSION['userFirstName'], ENT_QUOTES, 'UTF-8'); ?>!
+                    </div>
                 </div>
             </div>
 
@@ -319,6 +331,11 @@ if (isset($_GET['error'])) {
                                         <option value="Admin">Admin</option>
                                     </select>
                                 </div>
+
+                                <!-- CSRF Token -->
+                                <input type="hidden" name="csrfToken" 
+                                value="<?php echo htmlspecialchars($_SESSION['csrfToken'], ENT_QUOTES, 'UTF-8'); ?>">
+
                                 <div class="modal-footer dtr-modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                     <button type="submit" name="addUserBtn" class="btn btn-primary">Add User</button>
@@ -362,6 +379,11 @@ if (isset($_GET['error'])) {
                                         <option value="Admin">Admin</option>
                                     </select>
                                 </div>
+
+                                <!-- CSRF Token -->
+                                <input type="hidden" name="csrfToken" 
+                                value="<?php echo htmlspecialchars($_SESSION['csrfToken'], ENT_QUOTES, 'UTF-8'); ?>">
+
                                 <div class="modal-footer dtr-modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                     <button type="submit" name="editUserBtn" class="btn btn-primary">Save Changes</button>
@@ -396,6 +418,8 @@ if (isset($_GET['error'])) {
             document.getElementById('editUserRole').value      = userRole;
         });
     </script>
+
+    <?php include '../includes/theme.php'; ?>
 
 </body>
 </html>

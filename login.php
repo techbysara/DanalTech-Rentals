@@ -1,6 +1,11 @@
 <?php 
 session_start(); 
 
+// Generate CSRF token if not already set
+if (empty($_SESSION['csrfToken'])) {
+    $_SESSION['csrfToken'] = bin2hex(random_bytes(32));
+}
+
 // Errot and Success Message config
 $loginMessage = "";
 
@@ -36,11 +41,17 @@ if (isset($_GET['success'])) {
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <!-- Theme Toggle -->
+    <div style="position: fixed; top: 16px; right: 16px; z-index: 1000;">
+        <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()">Dark</button>
+    </div>
+
+    <!-- Login wrapper -->
     <div class="login-wrapper">
         <!-- Brand Header -->
         <div class="brand-header">
             <h1>DanalTech Rentals</h1>
-            <p class="brand-tagline">Rent the tech you need. Work without limits.</p>
+            <p class="brand-tagline">Rent smart. Work better. Zero stress.</p>
         </div>
 
         <!-- Login Box -->
@@ -70,6 +81,11 @@ if (isset($_GET['success'])) {
                         <option value="Admin">Admin</option>
                     </select>
                 </div>
+
+                <!-- CSRF Token -->
+                <input type="hidden" name="csrfToken" 
+                value="<?php echo htmlspecialchars($_SESSION['csrfToken'], ENT_QUOTES, 'UTF-8'); ?>">
+
                 <button type="submit" 
                 name="loginBtn" 
                 class="login-btn">Login</button>
@@ -87,5 +103,6 @@ if (isset($_GET['success'])) {
             <p>&copy; 2026 DanalTech Rentals. All rights reserved.</p>
         </div>
     </div>
+    <?php include 'includes/theme.php'; ?>
 </body>
 </html>

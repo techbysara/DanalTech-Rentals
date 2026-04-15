@@ -80,8 +80,17 @@ if (isset($_GET['success'])) {
         <!-- Sidebar -->
         <div class="admin-sidebar">
             <div class="sidebar-brand">
-                <h2>DanalTech</h2>
-                <span>Rentals</span>
+                <a href="../index.php" class="dtr-logo" style="justify-content:center; padding: 0 0 10px 0;">
+                    <div class="logo-badge">
+                        <span class="logo-d">D</span>
+                        <span class="logo-t">T</span>
+                        <span class="logo-r">R</span>
+                    </div>
+                    <div class="logo-text-block">
+                        <span class="logo-name">DanalTech</span>
+                        <span class="logo-sub">Rentals</span>
+                    </div>
+                </a>
             </div>
             <nav class="sidebar-nav">
                 <a href="dashboard.php" class="nav-link">
@@ -108,8 +117,11 @@ if (isset($_GET['success'])) {
             <!-- Top Bar -->
             <div class="admin-topbar">
                 <h1>Rentals Management</h1>
-                <div class="admin-profile">
-                    Welcome, <?php echo htmlspecialchars($_SESSION['userFirstName'], ENT_QUOTES, 'UTF-8'); ?>!
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()">Dark</button>
+                    <div class="admin-profile">
+                        Welcome, <?php echo htmlspecialchars($_SESSION['userFirstName'], ENT_QUOTES, 'UTF-8'); ?>!
+                    </div>
                 </div>
             </div>
 
@@ -195,7 +207,7 @@ if (isset($_GET['success'])) {
                                                 Mark Overdue
                                             </a>
                                         <?php } else { ?>
-                                            <span style="color: #4a4a6a; font-size: 0.8rem;">
+                                            <span class="text-muted" style="font-size: 0.8rem;">
                                                 <?php echo htmlspecialchars($rentalRow['status'], ENT_QUOTES, 'UTF-8'); ?>
                                             </span>
                                         <?php } ?>
@@ -218,6 +230,8 @@ if (isset($_GET['success'])) {
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <?php include '../includes/theme.php'; ?>
 
 </body>
 </html>

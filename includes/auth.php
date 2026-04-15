@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+// Generate CSRF token if not already set
+if (empty($_SESSION['csrfToken'])) {
+    $_SESSION['csrfToken'] = bin2hex(random_bytes(32));
+}
+
   // Connection to Datatbase
 require_once '../config/database.php';
 
@@ -15,6 +20,11 @@ if(isset($_POST['loginBtn'])) {
     // Validate
     if(empty($userEmail) || empty ($userPassword)) {
         header("Location: ../login.php?error=emptyfields");
+        exit();
+    }
+
+    if (!isset($_POST['csrfToken']) || $_POST['csrfToken'] !== $_SESSION['csrfToken']) {
+        header("Location: ../login.php?error=invalidrequest");
         exit();
     }
 
@@ -111,6 +121,11 @@ if(isset($_POST['registerBtn'])) {
     if (empty($firstName) || empty($lastName) || 
         empty($userEmail) || empty($userPassword)) {
         header("Location: ../register.php?error=emptyfields");
+        exit();
+    }
+
+    if (!isset($_POST['csrfToken']) || $_POST['csrfToken'] !== $_SESSION['csrfToken']) {
+        header("Location: ../register.php?error=invalidrequest");
         exit();
     }
 

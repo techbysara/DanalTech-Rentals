@@ -19,19 +19,24 @@ if (isset($_POST['addEquipmentBtn'])) {
     $availabilityStatus     = trim($_POST['availabilityStatus']);
     $featuredDeal            = trim($_POST['featuredDeal']);
     $dealDiscount           = trim($_POST['dealDiscount']);
+    $equipmentPrice         = trim($_POST['equipmentPrice']);
+    $equipmentImage         = trim($_POST['equipmentImage']);
 
-    $addEquipmentQuery      = "INSERT INTO equipment (name, category, serialNumber, equip_condition, quantity, availability_status, featured_deal, deal_discount) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $addEquipmentQuery      = "INSERT INTO equipment (name, image, category, serialNumber, equip_condition, quantity, 
+                availability_status, featured_deal, deal_discount, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $addEquipmentPrepared = $dbConn->prepare($addEquipmentQuery);
     $addEquipmentPrepared->bind_param(
-        "ssssisis",
+        "sssssisisd",
         $equipmentName,
+        $equipmentImage,
         $equipmentCategory,
         $serialNumber,
         $equipCondition,
         $equipmentQuantity,
         $availabilityStatus,
         $featuredDeal,
-        $dealDiscount
+        $dealDiscount,
+        $equipmentPrice
     );
 
     if ($addEquipmentPrepared->execute()) {
@@ -46,25 +51,28 @@ if (isset($_POST['addEquipmentBtn'])) {
 
 // Edit Equipment Config
 if (isset($_POST['editEquipmentBtn'])) {
-    $editEquipmentID          = trim($_POST['editEquipmentID']);
+    $editEquipmentID        = trim($_POST['editEquipmentID']);
     $equipmentName           = trim($_POST['equipmentName']);
     $equipmentCategory      = trim($_POST['equipmentCategory']);
-    $erialNumber           = trim($_POST['serialNumber']);
+    $serialNumber           = trim($_POST['serialNumber']);
     $equipCondition         = trim($_POST['equipCondition']);
     $equipmentQuantity      = trim($_POST['equipmentQuantity']);
     $availabilityStatus     = trim($_POST['availabilityStatus']);
     $featuredDeal            = trim($_POST['featuredDeal']);
-    $dealDiscount           = trim($_POST['dealDiscount']);
+    $dealDiscount          = trim($_POST['dealDiscount']);
+    $equipmentPrice         = trim($_POST['equipmentPrice']);
+    $equipmentImage         = trim($_POST['equipmentImage']);
 
-    $editEquipmentQuery      = "UPDATE equipment SET name = ?, category = ?, serialNumber = ?,
+    $editEquipmentQuery      = "UPDATE equipment SET name = ?, image = ?, category = ?, serialNumber = ?,
                             equip_condition = ?, quantity = ?,
-                            availability_status = ?, featured_deal = ?, deal_discount = ?
+                            availability_status = ?, featured_deal = ?, deal_discount = ?, price = ?
                             WHERE id = ?";
 
     $editEquipmentPrepared = $dbConn->prepare($editEquipmentQuery);
     $editEquipmentPrepared->bind_param(
-        "ssssisisi",
+        "sssssisisdi",
         $equipmentName,
+        $equipmentImage,
         $equipmentCategory,
         $serialNumber,
         $equipCondition,
@@ -72,6 +80,7 @@ if (isset($_POST['editEquipmentBtn'])) {
         $availabilityStatus,
         $featuredDeal,
         $dealDiscount,
+        $equipmentPrice,
         $editEquipmentID
     );
 
@@ -150,8 +159,17 @@ if (isset($_GET['error'])) {
         <!-- Sidebar -->
         <div class="admin-sidebar">
             <div class="sidebar-brand">
-                <h2>DanalTech</h2>
-                <span>Rentals</span>
+                <a href="../index.php" class="dtr-logo" style="justify-content:center; padding: 0 0 10px 0;">
+                    <div class="logo-badge">
+                        <span class="logo-d">D</span>
+                        <span class="logo-t">T</span>
+                        <span class="logo-r">R</span>
+                    </div>
+                    <div class="logo-text-block">
+                        <span class="logo-name">DanalTech</span>
+                        <span class="logo-sub">Rentals</span>
+                    </div>
+                </a> 
             </div>
             <nav class="sidebar-nav">
                 <a href="dashboard.php" class="nav-link">
@@ -178,8 +196,11 @@ if (isset($_GET['error'])) {
             <!-- Top Bar -->
             <div class="admin-topbar">
                 <h1>Equipment Management</h1>
-                <div class="admin-profile">
-                    👤 Welcome, <?php echo htmlspecialchars($_SESSION['userFirstName'], ENT_QUOTES, 'UTF-8'); ?>!
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()">Dark</button>
+                    <div class="admin-profile">
+                    Welcome, <?php echo htmlspecialchars($_SESSION['userFirstName'], ENT_QUOTES, 'UTF-8'); ?>!
+                    </div>
                 </div>
             </div>
 
@@ -215,6 +236,7 @@ if (isset($_GET['error'])) {
                             <th>Status</th>
                             <th>Deal</th>
                             <th>Actions</th>
+                            <th>Price</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -227,11 +249,12 @@ if (isset($_GET['error'])) {
                                     <td><?php echo htmlspecialchars($equipmentRow['equip_condition'], ENT_QUOTES, 'UTF-8'); ?></td>
                                     <td><?php echo htmlspecialchars($equipmentRow['quantity'], ENT_QUOTES, 'UTF-8'); ?></td>
                                     <td>
-                                        <span class="status-badge <?php echo htmlspecialchars(strtolower($equipmentRow['availability_status'])); ?>">
+                                        <span class="status-badge <?php echo htmlspecialchars(strtolower($equipmentRow['availability_status']), ENT_QUOTES, 'UTF-8'); ?>">
                                             <?php echo htmlspecialchars($equipmentRow['availability_status'], ENT_QUOTES, 'UTF-8'); ?>
                                         </span>
                                     </td>
                                     <td><?php echo htmlspecialchars($equipmentRow['featured_deal'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td>£<?php echo number_format($equipmentRow['price'], 2); ?></td>
                                     <td>
 
                                         <!-- Edit Button -->
@@ -247,7 +270,9 @@ if (isset($_GET['error'])) {
                                         data-quantity="<?php echo htmlspecialchars($equipmentRow['quantity'], ENT_QUOTES, 'UTF-8'); ?>"
                                         data-status="<?php echo htmlspecialchars($equipmentRow['availability_status'], ENT_QUOTES, 'UTF-8'); ?>"
                                         data-deal="<?php echo htmlspecialchars($equipmentRow['featured_deal'], ENT_QUOTES, 'UTF-8'); ?>"
-                                        data-discount="<?php echo htmlspecialchars($equipmentRow['deal_discount'], ENT_QUOTES, 'UTF-8'); ?>">
+                                        data-discount="<?php echo htmlspecialchars($equipmentRow['deal_discount'], ENT_QUOTES, 'UTF-8'); ?>"
+                                        data-price="<?php echo htmlspecialchars($equipmentRow['price'], ENT_QUOTES, 'UTF-8'); ?>"
+                                        data-image="<?php echo htmlspecialchars($equipmentRow['image'], ENT_QUOTES, 'UTF-8'); ?>">
                                             Edit
                                         </button>
 
@@ -262,7 +287,7 @@ if (isset($_GET['error'])) {
                             <?php } ?>
                         <?php } else { ?>
                             <tr>
-                                <td colspan="8" class="empty-table">
+                                <td colspan="9" class="empty-table">
                                     No equipment found. Click "Add New Equipment" to get started!
                                 </td>
                             </tr>
@@ -345,6 +370,21 @@ if (isset($_GET['error'])) {
                                         <input type="number" name="dealDiscount"
                                         placeholder="Enter discount" min="0" max="100" value="0">
                                     </div>
+                                    <div class="form-group">
+                                        <label>Price Per Day (£)</label>
+                                        <input type="number" name="equipmentPrice"
+                                        placeholder="Enter price e.g. 9.99" min="0" step="0.01" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Image Path</label>
+                                        <input type="text" name="equipmentImage"
+                                        placeholder="e.g. laptops/macbook-pro.jpg">
+                                    </div>
+
+                                    <!-- CSRF Token -->
+                                    <input type="hidden" name="csrfToken" 
+                                    value="<?php echo htmlspecialchars($_SESSION['csrfToken'], ENT_QUOTES, 'UTF-8'); ?>">
+
                                 </div>
                                 <div class="modal-footer dtr-modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -431,6 +471,21 @@ if (isset($_GET['error'])) {
                                         <input type="number" name="dealDiscount" id="editDealDiscount"
                                         placeholder="Enter discount" min="0" max="100">
                                     </div>
+                                    <div class="form-group">
+                                        <label>Price Per Day (£)</label>
+                                        <input type="number" name="equipmentPrice" id="editEquipmentPrice"
+                                        placeholder="Enter price e.g. 9.99" min="0" step="0.01" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Image Path</label>
+                                        <input type="text" name="equipmentImage" id="editEquipmentImage"
+                                        placeholder="e.g. laptops/macbook-pro.jpg">
+                                    </div>
+
+                                    <!-- CSRF Token -->
+                                    <input type="hidden" name="csrfToken" 
+                                    value="<?php echo htmlspecialchars($_SESSION['csrfToken'], ENT_QUOTES, 'UTF-8'); ?>">
+
                                 </div>
                                 <div class="modal-footer dtr-modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -463,6 +518,8 @@ if (isset($_GET['error'])) {
             var equipmentStatus         = editBtn.getAttribute('data-status');
             var equipmentDeal           = editBtn.getAttribute('data-deal');
             var equipmentDiscount       = editBtn.getAttribute('data-discount');
+            var equipmentPrice      = editBtn.getAttribute('data-price');
+            var equipmentImage = editBtn.getAttribute('data-image');
 
             document.getElementById('editEquipmentID').value           = equipmentID;
             document.getElementById('editEquipmentName').value         = equipmentName;
@@ -473,8 +530,12 @@ if (isset($_GET['error'])) {
             document.getElementById('editAvailabilityStatus').value    = equipmentStatus;
             document.getElementById('editFeaturedDeal').value          = equipmentDeal;
             document.getElementById('editDealDiscount').value          = equipmentDiscount;
+            document.getElementById('editEquipmentPrice').value = equipmentPrice;
+            document.getElementById('editEquipmentImage').value = equipmentImage;
         });
     </script>
+
+    <?php include '../includes/theme.php'; ?>
 
 </body>
 </html>

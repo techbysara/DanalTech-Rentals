@@ -38,8 +38,17 @@ $activeRentalsData          = $activeRentalsResult->fetch_assoc();
         <!-- Sidebar -->
          <div class="admin-sidebar">
             <div class="sidebar-brand">
-                <h2>DanalTech</h2>
-                <span>Rentals</span>
+                <a href="../index.php" class="dtr-logo" style="justify-content:center; padding: 0 0 10px 0;">
+                    <div class="logo-badge">
+                        <span class="logo-d">D</span>
+                        <span class="logo-t">T</span>
+                        <span class="logo-r">R</span>
+                    </div>
+                    <div class="logo-text-block">
+                        <span class="logo-name">DanalTech</span>
+                        <span class="logo-sub">Rentals</span>
+                    </div>
+                </a>
             </div>
             <nav class="sidebar-nav">
                 <a href="dashboard.php" class="nav-link active">
@@ -64,18 +73,19 @@ $activeRentalsData          = $activeRentalsResult->fetch_assoc();
         <div class="admin-content">
 
             <!-- Top Bar -->
-             <div class="admin-topbar">
+            <div class="admin-topbar">
                 <h1>Admin Dashboard</h1>
-                <div class="admin-profile">
-                    Welcome, <?php echo htmlspecialchars($_SESSION['userFirstName'], ENT_QUOTES, 'UTF-8'); ?>! 
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()">Dark</button>
+                    <div class="admin-profile">
+                        Welcome, <?php echo htmlspecialchars($_SESSION['userFirstName'], ENT_QUOTES, 'UTF-8'); ?>! 
+                    </div>
                 </div>
-
             </div>
 
             <!-- Stats Cards -->
              <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-icon">👥</div>
                     <div class="stat-info">
                         <h3><?php echo htmlspecialchars($totalUsersData['totalUsers'], ENT_QUOTES, 'UTF-8'); ?></h3>
                         <p>Total Users</p>
@@ -84,7 +94,6 @@ $activeRentalsData          = $activeRentalsResult->fetch_assoc();
                 </div>
 
                 <div class="stat-card">
-                    <div class="stat-icon">🔧</div>
                     <div class="stat-info">
                         <h3><?php echo htmlspecialchars($totalEquipmentData['totalEquipment'], ENT_QUOTES, 'UTF-8'); ?></h3>
                         <p>Total Equipment</p>
@@ -92,7 +101,6 @@ $activeRentalsData          = $activeRentalsResult->fetch_assoc();
 
                 </div>
                  <div class="stat-card">
-                    <div class="stat-icon">📋</div>
                     <div class="stat-info">
                         <h3><?php echo htmlspecialchars($activeRentalsData['activeRentals'], ENT_QUOTES, 'UTF-8'); ?></h3>
                         <p>Active Rentals</p>
@@ -105,19 +113,21 @@ $activeRentalsData          = $activeRentalsResult->fetch_assoc();
                 <h2>Quick Actions</h2>
                 <div class="actions-grid">
                     <a href="equipment.php?action=add" class="action-card">
-                        ➕ Add Equipment
+                        Add Equipment
                     </a>
                     <a href="users.php?action=add" class="action-card">
-                        ➕ Add User
+                        Add User
                     </a>
                     <a href="rentals.php" class="action-card">
-                        📋 View Rentals
+                        View Rentals
                     </a>
                 </div>
             </div>
 
         </div>
     </div>
+
+    <?php include '../includes/theme.php'; ?>
  
 </body>
 </html>
