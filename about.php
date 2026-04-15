@@ -62,15 +62,15 @@ session_start();
                     <p class="section-text mt-4">
                         We watched students spend hours searching for affordable 
                         high-spec laptops for video rendering, graphic design, and game 
-                        development — only to settle for something slow that held them back. 
+                        development, only to settle for something slow that held them back. 
                         We watched remote workers lose job opportunities simply because they 
                         didn't have the right device. And we saw people buying expensive 
                         equipment upfront, only to be stuck with it when they no longer 
-                        needed it — unable to sell it for a fair price.
+                        needed it, unable to sell it for a fair price.
                     </p>
                     <p class="section-text mt-4">
-                        DanalTech exists to change that. Whether you are a student, 
-                        a creative, a gamer, or a professional — you deserve access to 
+                        With DanalTech, whether you are a student, 
+                        a creative, a gamer, or a professional, you deserve access to 
                         top-of-the-range equipment without the financial burden of ownership. 
                         Rent what you need, return when you are done, and never settle for less again.
                     </p>
@@ -89,7 +89,7 @@ session_start();
                         <h3 class="mission-title">Empowering people<br>through access.</h3>
                         <p class="section-text">
                             To provide individuals with access to carefully curated, 
-                            high-specification equipment — empowering them to work, create, 
+                            high-specification equipment, empowering them to work, create, 
                             and thrive without the pressure of upfront costs 
                             or long-term commitments.
                         </p>
@@ -104,7 +104,7 @@ session_start();
                             helps shape our inventory. We envision a future where long-term 
                             members enjoy expanded rental limits, where members can request 
                             specific devices, and where every user feels not just like a 
-                            customer — but like they belong.
+                            customer, but like they belong.
                         </p>
                     </div>
                 </div>
@@ -125,7 +125,7 @@ session_start();
                         <span class="feature-number">01</span>
                         <h4>People First</h4>
                         <p>
-                            Every decision we make starts with one question — 
+                            Every decision we make starts with one question, 
                             does this make life easier for our members? 
                             You are at the centre of everything we do.
                         </p>
@@ -172,8 +172,7 @@ session_start();
                             Every device in our inventory is carefully inspected 
                             and maintained to the highest standard. When you rent 
                             from DanalTech, you receive equipment that is fast, 
-                            reliable, and ready to perform — because your time 
-                            is too valuable for anything less.
+                            reliable, and ready to perform.
                         </p>
                     </div>
                 </div>
@@ -183,8 +182,8 @@ session_start();
                         <p>
                             Rent for as long as you need and extend whenever 
                             you want. We work around your schedule, not the 
-                            other way around. Return when you're ready — 
-                            no pressure, no penalties.
+                            other way around. Return when you're ready with 
+                            no pressure.
                         </p>
                     </div>
                 </div>
@@ -194,7 +193,7 @@ session_start();
                         <p>
                             Our support team is here when you need us. 
                             Whether you have a question, notice an issue, 
-                            or simply need guidance — we are available to help. 
+                            or simply need guidance, we are available to help. 
                             Because renting from DanalTech means you are 
                             never on your own.
                         </p>
