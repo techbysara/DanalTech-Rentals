@@ -1,5 +1,6 @@
-<<<<<<< HEAD
-# DanalTech Rentals (DTR)
+# DanalTech-Equipment-Rentals
+
+## DanalTech Rentals (DTR)
 > Rent smart. Work better. Zero stress.
 
 A web-based equipment rental management system 
@@ -29,4 +30,4 @@ Systems Development at Robert Gordon University.
 © 2026 DanalTech Rentals
 =======
 # DanalTech-Equipment-Rentals
->>>>>>> c738762d57e4c7acf104c00687b729c3ea41ad7c
+
