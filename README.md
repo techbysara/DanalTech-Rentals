@@ -1,1 +1,1 @@
-# DanalTech-Workspace-Equipment-Rentals
+# DanalTech-Equipment-Rentals
