@@ -30,7 +30,7 @@ if (isset($_POST['addToCartBtn'])) {
         'dueDate'       => $cartDueDate
     ];
 
-    header("Location: cart.php?success=added");
+    header("Location: browse.php?success=added");
     exit();
 }
 
@@ -47,6 +47,26 @@ if (isset($_GET['remove'])) {
 // Checkout — process all cart items
 if (isset($_POST['checkoutBtn'])) {
     $checkoutDueDate = htmlspecialchars(trim($_POST['cartDueDate']), ENT_QUOTES, 'UTF-8');
+
+     // Check rental limit
+    $cartRentalLimitQuery    = "SELECT COUNT(*) AS activeRentals FROM rentals 
+                                WHERE user_id = ? AND status = 'Active'";
+    $cartRentalLimitPrepared = $dbConn->prepare($cartRentalLimitQuery);
+    $cartRentalLimitPrepared->bind_param("i", $_SESSION['userID']);
+    $cartRentalLimitPrepared->execute();
+    $cartRentalLimitResult   = $cartRentalLimitPrepared->get_result();
+    $cartRentalLimitData     = $cartRentalLimitResult->fetch_assoc();
+
+    $cartItemCount = 0;
+    foreach ($_SESSION['cart'] as $cartItem) {
+        $cartItemCount += $cartItem['quantity'];
+    }
+
+    if (($cartRentalLimitData['activeRentals'] + $cartItemCount) > 7) {
+        $cartMessage     = "Rental limit exceeded! You can only have 7 active rentals. 
+                           You currently have " . $cartRentalLimitData['activeRentals'] . " active.";
+        $cartMessageType = "error";
+    } else {
     if (!empty($_SESSION['cart'])) {
         foreach ($_SESSION['cart'] as $cartItem) {
             $checkoutEquipmentID = $cartItem['equipmentID'];
@@ -98,18 +118,24 @@ if (isset($_POST['checkoutBtn'])) {
         header("Location: cart.php?success=checkedout");
         exit();
     }
+    }
+    
 }
 
 // Messages
-$cartMessage     = "";
-$cartMessageType = "";
-if (isset($_GET['success'])) {
-    if ($_GET['success'] == 'added') {
-        $cartMessage     = "Item added to cart!";
-        $cartMessageType = "success";
-    } elseif ($_GET['success'] == 'checkedout') {
-        $cartMessage     = "Rental confirmed! Your items are now active.";
-        $cartMessageType = "success";
+if (empty($cartMessage)) {
+    $cartMessage     = "";
+    $cartMessageType = "";
+
+    if (isset($_GET['success'])) {
+
+        if ($_GET['success'] == 'added') {
+            $cartMessage     = "Item added to cart!";
+            $cartMessageType = "success";
+        } elseif ($_GET['success'] == 'checkedout') {
+            $cartMessage     = "Rental confirmed! Your items are now active.";
+            $cartMessageType = "success";
+        }
     }
 }
 

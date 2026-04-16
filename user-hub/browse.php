@@ -8,6 +8,11 @@ if (!isset($_SESSION['userRole']) || $_SESSION['userRole'] !== 'User') {
     exit();
 }
 
+$browseMessage = "";
+if (isset($_GET['success']) && $_GET['success'] == 'added') {
+    $browseMessage = "Item added to cart!";
+}
+
 // Retrieve all available equipment
 $browseEquipmentQuery  = "SELECT * FROM equipment WHERE availability_status != 'Unavailable' 
                           AND quantity > 0 ORDER BY created_at DESC";
@@ -63,6 +68,14 @@ $browseEquipmentResult = $dbConn->query($browseEquipmentQuery);
                     </div>
                 </div>
             </div>
+            
+            <?php if (!empty($browseMessage)) { ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <?php echo htmlspecialchars($browseMessage, ENT_QUOTES, 'UTF-8'); ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <?php } ?>
+
 
             <!-- Equipment Section -->
             <div class="admin-table-card">
