@@ -17,7 +17,7 @@ if (isset($_GET['error'])) {
     } elseif ($_GET['error'] == 'emailexists') {
         $registerMessage = " User already exist. Please login.";
     
-    } elseif ($_GET['error'] == 'registerfield') {
+    } elseif ($_GET['error'] == 'registerfailed') {
         $registerMessage = " Registration failed. Please try again.";
     }
 }

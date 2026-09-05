@@ -28,6 +28,3 @@ Systems Development at Robert Gordon University.
 
 
 © 2026 DanalTech Rentals
-=======
-# DanalTech-Equipment-Rentals
-

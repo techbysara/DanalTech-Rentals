@@ -26,7 +26,7 @@ if (isset($_POST['addEquipmentBtn'])) {
                 availability_status, featured_deal, deal_discount, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $addEquipmentPrepared = $dbConn->prepare($addEquipmentQuery);
     $addEquipmentPrepared->bind_param(
-        "sssssisisd",
+        "sssssissid",
         $equipmentName,
         $equipmentImage,
         $equipmentCategory,
@@ -70,7 +70,7 @@ if (isset($_POST['editEquipmentBtn'])) {
 
     $editEquipmentPrepared = $dbConn->prepare($editEquipmentQuery);
     $editEquipmentPrepared->bind_param(
-        "sssssisisdi",
+        "sssssissidi",
         $equipmentName,
         $equipmentImage,
         $equipmentCategory,
